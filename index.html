@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
+        <title>Pigma.Code</title>
+        <style>
+            body {
+                background-color: #fff;
+                margin: 0px;
+                font-size: 16px;
+            }
+            .titulo {
+                display: flex;
+                justify-content: center;
+            }
+            .barra-aplicativo {
+                background-color: #000;
+                position: -webkit-sticky;
+                position: sticky;
+                padding: 1rem;
+                top: 0;
+            }
+            .barra-aplicativo-linha {
+                flex-direction: row;
+                align-items: center;
+                position: relative;
+                display: flex;
+            }
+            .barra-aplicativo .item {
+                flex-direction: row;
+                align-items: center;
+                color: #fff;
+                display: flex;
+            }
+            .barra-aplicativo-linha .navegacao {
+                justify-content: center;
+                position: absolute;
+                width: 100%;
+            }
+            .barra-aplicativo-linha .compra {
+                margin-left: auto;
+            }
+            .barra-aplicativo-linha .compra div {
+                padding-right: 1rem;
+            }
+            .barra-aplicativo-linha .navegacao div {
+                padding-right: 2rem;
+            }
+            .barra-aplicativo-linha .navegacao div a {
+                text-decoration: none;
+                color: #fff;
+            }
+            .barra-aplicativo-linha .item :last-child {
+                padding-right: 0px;
+            }
+            .conteudo {
+                margin: 2rem 2rem;
+            }
+            .secao-produto {
+                flex-direction: row;
+                display: flex;
+                border: 1px solid #ccc;
+                box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2),0 3px 10px 0 rgba(0,0,0,0.19);
+                padding: 2rem;
+                margin: 2rem 0px 1rem 0px;
+            }
+            .produto-imagem {
+                display: flex;
+            }
+            .produto-imagem img {
+                height: 10rem;
+                object-fit: cover;
+                width: 15rem;
+            }
+            .produto-descricao {
+                margin-left: 1rem;
+                width: 60%;
+            }
+            .produto-descricao p {
+                margin: 0px;
+                text-align: start;
+            }
+            .produto-compra {
+                justify-content: space-around;
+                flex-direction: column;
+                margin-left: 1rem;
+                display: flex;
+                width: 20%;
+            }
+            .produto-botao {
+                width: 100%;
+            }
+            .produto-botao button {
+                outline: inherit;
+                cursor: pointer;
+                height: 3rem;
+                border: none;
+                width: 100%;
+            }
+
+            .produto-botao.add button {
+                background-color: #000;
+                color: #fff;
+            }
+            .produto-botao.remover button {
+                background-color: #fff;
+                border: 1px solid #000;
+                color: #000;
+            }
+        </style>
+    </head>
+    <body>
+        <header id='cabecalho'>
+                <div class='titulo'>
+                    <h1>Lojinha da Pigma</h1>
+                </div>
+        </header>
+        <div class='barra-aplicativo'>
+            <div class='barra-aplicativo-linha'>
+                <div class='item navegacao'>
+                    <div><a href="">Produtos</a></div>
+                    <div><a href="">Sobre Nós</a></div>
+                </div>
+                <div class='item compra'>
+                    <div><i class='fas fa-cart-plus' style='font-size:24px'></i></div>
+                    <div><span id='valor-carrinho'>R$ 0,00</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="conteudo">
+            <h2>Nossos produtos</h2>
+            <div class='produtos' id='produtos'></div>
+            <div><a href="#cabecalho">Voltar para o topo</a></div>
+        </div>
+        <script>
+            const produtos = [{
+                caminhoImagem: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfexdkmDjzKNOR3SigwukrowiYYtEQqKzszA&usqp=CAU',
+                legendaImagem: 'Panetone',
+                descircao: `O panetone é um alimento tradicional da época de Natal, de origem milanesa, região a noroeste da Itália. Várias lendas tentam explicar a sua origem. O pão doce ou bolo de natal possui fragrância discreta de baunilha e recheio de frutas secas, tais como damasco, mamão, laranja, limão, maçã, cidra e a uva passa.`,
+                valor: 40.5,
+                id: 'item-0'
+            },
+            {
+                caminhoImagem: 'https://1.bp.blogspot.com/-fGPH3fxnU0w/XoVBjyOx_vI/AAAAAAAAZfA/pYAOtcrTM2w734J4Xr9IhAjTGVxvHUwiwCNcBGAsYHQ/s1600/pernil-assado-receita.jpg',
+                legendaImagem: 'Pernil assado',
+                descircao: `O Pernil Suíno é muito apreciado assado inteiro, especialmente na ceia de Natal e no Ano Novo no Brasil e em outros países da América Latina. Apesar do peru ser mais tradicional, o pernil suíno está crescendo muito em popularidade no Brasil, possivelmente pelo costume dos brasileiros com a carne de porco e pela dificuldade do preparo do peru. O sanduíche de pernil também é popular no Brasil, existindo até lanchonetes especializadas nele.`,
+                valor: 65.85,
+                id: 'item-1'
+            },
+            {
+                caminhoImagem: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcST9iwTAif1c3nAC1bYqiqEPFaxEau9tfQgWA&usqp=CAU',
+                legendaImagem: 'Esferas de natal',
+                descircao: `Originalmente as bolas da árvore de natal eram frutos de verdade. Os de casca amarela referem-se aos frutos de ouro do Paraíso, como desdobramentos do Sol.`,
+                id: 'item-2',
+                valor: 20.0,
+            },
+            {
+                caminhoImagem: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6Z8OrXbEJNu0RxwDprczsIoV_cSxxvYlzkA&usqp=CAU',
+                legendaImagem: 'Árvore de Natal',
+                descircao: `A árvore de Natal é uma das mais populares tradições associadas com a celebração do Natal. É normalmente uma árvore conífera de folhas perenes (um pinheiro) ou uma árvore artificial. Como parte da tradição, enfeita-se a árvore com bolas coloridas e outros adornos natalinos, como o sino de Natal.`,
+                id: 'item-3',
+                valor: 125.0,
+            },
+            {
+                caminhoImagem: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfWLR6X5JXK1KXGtX2TgvrfwL4dzEqYcqFIw&usqp=CAU',
+                legendaImagem: 'Gorro de natal',
+                descircao: `A mais importante característica incluída na figura do Pai Natal é sua blusa vermelha e branca. Antigamente, ele usava trajes verde e costumava usar um gorro também verde na cabeça.`,
+                id: 'item-4',
+                valor: 25.90,
+            },
+            {
+                caminhoImagem: 'https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcQ4OZPgUbGO8f44qi-WGHKN4qNoIG6yi6Amko4HH0uU7zwtSJHYnlZqrVBeQAmTkERmsg8U1BvvCbGtUGZIegh438HsiClUy4ADy-s4nWBl&usqp=CAE',
+                legendaImagem: 'Luzes de Natal',
+                descircao: `Pisca-pisca ou luzes de Natal é um acessório geralmente colocado numa árvore de Natal ou em decoração de casas, de lojas ou empresas, para iluminá-las. É um fio com diversas lâmpadas ou LEDs, que piscam repetidamente em sequência ou não. As lâmpadas dos piscas-piscas mais baratos, são geralmente ligadas em série. Outros piscam de forma desordenadas, outros nem piscam. A lâmpada liga, esquenta um pequeno interruptor metálico, que dilata, tirando o contato da lâmpada e fazendo com que ela se apague. Depois que ela se apaga, esfria o interruptor metálico, que se contrai e volta a ligar a lâmpada, fazendo-a piscar. Os piscas-piscas mais baratos têm várias sequências de lâmpadas ligadas individualmente, enquanto os mais caros, normalmente, piscam em sequências, programadas ao gosto do usuário, através de um pequeno controle, geralmente, transistorizado, aclopado ao fio. As lâmpadas podem ser coloridas, ou de uma só cor.`,
+                id: 'item-5',
+                valor: 45.55,
+            },
+            {
+                caminhoImagem: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8sCzyKSBpN3P008rUPUSDTJm5Hv4wLzH8uw&usqp=CAU',
+                legendaImagem: 'Espumante Champanhe Chandon Brut Rose',
+                descircao: `Champanhe ou champanha é um vinho branco espumante, produzido na região de Champagne, nordeste da França, através da fermentação da uva.`,
+                id: 'item-6',
+                valor: 75.00,
+            }];
+
+            let carrinho = [];
+
+            function addProdutoCarrinho(index) {
+                carrinho.push(produtos[index]);
+                let valorTotal = 0;
+                carrinho.forEach(item => {
+                 valorTotal += item.valor;
+                });
+                document.getElementById("valor-carrinho").innerHTML = valorTotal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+            }
+            function removerProdutoCarrinho(index) {
+                const indexProdutoRemovido = carrinho.findIndex(item => item.id === produtos[index].id);
+                console.log('trace indexProdutoRemovido:', indexProdutoRemovido);
+                if(indexProdutoRemovido >= 0) carrinho.splice(indexProdutoRemovido, 1);
+                let valorTotal = 0;
+                carrinho.forEach(item => {
+                    valorTotal += item.valor;
+                })
+                document.getElementById("valor-carrinho").innerHTML = valorTotal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+            }
+
+            const context = produtos.map((item, index) => (`<div class="secao-produto">
+                        <div class="produto-imagem">
+                            <img src="${item.caminhoImagem}" alt="${item.legendaImagem}">
+                        </div>
+                            <div class="produto-descricao">
+                                <p>${item.descircao}</p>
+                            </div>
+                            <div class="produto-compra">
+                                <div class="produto-preco">
+                                    <div><span>Preço: ${item.valor.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span></div>
+                                </div>
+                                <div class="produto-botao add"><button onclick="addProdutoCarrinho(${index})">Adicionar ao carrinho</button></div>
+                                <div class="produto-botao remover"><button onclick="removerProdutoCarrinho(${index})">Remover do carrinho</button></div>
+                            </div>
+                        </div>`));
+
+            document.getElementById("produtos").innerHTML = context.join('');
+        </script>
+    </body>
+</html>
