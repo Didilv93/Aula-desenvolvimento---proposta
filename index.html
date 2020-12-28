@@ -109,6 +109,87 @@
                 border: 1px solid #000;
                 color: #000;
             }
+            .voltar_topo {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                margin: 2rem 0px;
+            }
+            .voltar_topo a {
+                color: #000;
+            }
+            footer {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem;
+            }
+            .formulario {
+                border: 1px solid #000;
+                padding: 2rem;
+                width: 30%;
+                margin: auto;
+            }
+            .formulario-campo {
+                width: 100%;
+            }
+            footer span {
+                margin: 2rem 0px;
+                text-align: center;
+            }
+
+            @media only screen and (max-width: 769px) {
+                .barra-aplicativo-linha {
+                    align-items: center;
+                    justify-content: center;
+                }
+                .barra-aplicativo .item {
+                    flex-direction: row;
+                    align-items: center;
+                }
+                .barra-aplicativo-linha .navegacao {
+                    justify-content: center;
+                    position: relative;
+                    width: auto;
+                }
+                .barra-aplicativo-linha .compra {
+                    margin-left: 2rem;
+                }
+                .barra-aplicativo-linha .compra div {
+                    padding-right: 1rem;
+                }
+                .secao-produto {
+                    flex-direction: column;
+                }
+                .produto-imagem img {
+                    object-fit: cover;
+                    height: auto;
+                    width: 100%;
+                }
+                .produto-descricao {
+                    margin-left: 0px;
+                    margin-top: 1rem;
+                    width: 100%;
+                }
+                .produto-descricao p {
+                    margin: 0px;
+                    text-align: start;
+                }
+                .produto-compra {
+                    justify-content: space-around;
+                    flex-direction: column;
+                    margin: 0px;
+                    display: flex;
+                    width: 100%;
+                }
+                .produto-compra .item {
+                    margin-top: 1rem;
+                }
+                .formulario {
+                    padding: 2rem;
+                    width: auto;
+                }
+            }
         </style>
     </head>
     <body>
@@ -132,7 +213,7 @@
         <div class="conteudo">
             <h2>Nossos produtos</h2>
             <div class='produtos' id='produtos'></div>
-            <div><a href="#cabecalho">Voltar para o topo</a></div>
+            <div class="voltar_topo"><a href="#cabecalho">Voltar para o topo</a></div>
         </div>
         <script>
             const produtos = [{
@@ -197,7 +278,6 @@
             }
             function removerProdutoCarrinho(index) {
                 const indexProdutoRemovido = carrinho.findIndex(item => item.id === produtos[index].id);
-                console.log('trace indexProdutoRemovido:', indexProdutoRemovido);
                 if(indexProdutoRemovido >= 0) carrinho.splice(indexProdutoRemovido, 1);
                 let valorTotal = 0;
                 carrinho.forEach(item => {
@@ -214,15 +294,27 @@
                                 <p>${item.descircao}</p>
                             </div>
                             <div class="produto-compra">
-                                <div class="produto-preco">
+                                <div class="produto-preco item">
                                     <div><span>Preço: ${item.valor.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span></div>
                                 </div>
-                                <div class="produto-botao add"><button onclick="addProdutoCarrinho(${index})">Adicionar ao carrinho</button></div>
-                                <div class="produto-botao remover"><button onclick="removerProdutoCarrinho(${index})">Remover do carrinho</button></div>
+                                <div class="produto-botao item add"><button onclick="addProdutoCarrinho(${index})">Adicionar ao carrinho</button></div>
+                                <div class="produto-botao item remover"><button onclick="removerProdutoCarrinho(${index})">Remover do carrinho</button></div>
                             </div>
                         </div>`));
 
             document.getElementById("produtos").innerHTML = context.join('');
         </script>
+        <footer>
+            <form  class="formulario" action="javascript:;" onsubmit="alert(`Olá ${this.name.value}, já recebemos seu dados e em breve entraremos em contato!`)">
+                <label for="name">Nome:</label>
+                <input class="formulario-campo" type="text" id="name" name="name"><br><br>
+                <label for="email">Email:</label>
+                <input class="formulario-campo" type='email' id="email" name="email"><br><br>
+                <label for="tel">Número Telefone:</label>
+                <input class="formulario-campo" type='tel' id="tel" name="tel"><br><br>
+                <input type="submit" value="Enviar">
+            </form>
+            <span>Feito com ❤️ por pigma.code</span>
+        </footer>
     </body>
 </html>
